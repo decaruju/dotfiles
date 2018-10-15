@@ -1,0 +1,209 @@
+[colors]
+background = ${xrdb:background:#ff0000}
+background2 = ${xrdb:lighterbg:#ff0000}
+selection = ${xrdb:selection:#ff0000}
+foreground = ${xrdb:foreground:#ff0000}
+red = ${xrdb:red:#ff0000}
+green = ${xrdb:green:#ff0000}
+yellow = ${xrdb:yellow:#ff0000}
+orange = ${xrdb:orange:#ff0000}
+separator = ${xrdb:separator:#ff0000}
+lightfg = ${xrdb:color7:#ff0000}
+
+[settings]
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+
+[module/info-todotxt]
+type = custom/script
+exec = ~/.script/todotxt.sh
+interval = 60
+format-background = ${colors.background2}
+format-padding=1
+
+[module/gmail]
+type = custom/script
+exec = ~/.config/polybar/gmail/launch.py -ns
+tail = true
+format-background = ${colors.background2}
+format-padding=1
+click-left = qutebrowser https://gmail.com
+
+[module/updates-arch-aur]
+type = custom/script
+exec = ~/.script/updates-arch-aur.sh
+format-padding=1
+format-background=${colors.background2}
+format-font=5
+interval = 600
+click-left = urxvt -e yay -Syu &
+
+[module/keyboard]
+type = custom/script
+format-background = ${colors.background2}
+format-padding = 1
+format-font=4
+exec = ~/.script/get-layout-icon.sh
+interval=0.1
+click-left = ~/.script/change-layout.sh
+
+[module/space]
+type = custom/script
+exec = echo "    "
+
+[module/filesystem]
+type = internal/fs
+mount-0=/
+interval = 10
+format-mounted=%{A1:baobab /home:}<ramp-capacity>%{A}
+format-mounted-background = ${colors.background2}
+format-mounted-padding=1
+ramp-capacity-4 = ○
+ramp-capacity-3 = ◔
+ramp-capacity-2 = ◑
+ramp-capacity-1 = ◕
+ramp-capacity-0 = ●
+
+[module/volume]
+type=internal/alsa
+format-volume =%{A3:pavucontrol:}<ramp-volume>%{A}
+format-volume-background=${colors.background2}
+format-muted =%{A3:pavucontrol:}<label-muted>%{A}
+format-muted-background=${colors.background2}
+format-muted-padding=1
+click-right = pavucontrol
+ramp-volume-padding=1
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+label-muted = 🔇
+
+[module/backlight]
+type = internal/xbacklight
+output = eDP-1
+enable-scroll = false
+format = <ramp>
+format-padding=1
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+format-background = ${colors.background2}
+
+[module/wireless]
+type = internal/network
+interface = wlp58s0
+format-connected-padding=1
+label-connected = "%{T2}%{T-}"
+format-connected = <label-connected>
+format-connected-background = ${colors.background2}
+format-disconnected-foreground = ${colors.red}
+
+[module/cpu]
+type=internal/cpu
+interval=1
+format-background=${colors.background2}
+format=%{A1:gnome-system-monitor &:}<ramp-coreload>%{A}
+format-padding=1
+label-font = 3
+ramp-coreload-0 = "%{F#A3BE8C}▁"
+ramp-coreload-1 = "%{F#A3BE8C}▂"
+ramp-coreload-2 = "%{F#A3BE8C}▃"
+ramp-coreload-3 = "%{F#EBCB8B}▄"
+ramp-coreload-4 = "%{F#D08770}▅"
+ramp-coreload-5 = "%{F#BF616A}▆"
+ramp-coreload-6 = "%{F#BF616A}▇"
+ramp-coreload-7 = "%{F#BF616A}█"
+
+[module/time]
+type = internal/date
+interval = 1.0
+format-padding=1
+time = %{A1:~/.script/calendar.sh &:}%Y-%m-%d %H:%M%{A}
+label = %time%
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+
+[module/timer]
+type = custom/script
+exec = echo C$TIMER
+click-left = ~/.script/timer.sh &
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+label-focused = %index%
+label-focused-padding = 1
+label-focused-background = ${colors.selection}
+label-unfocused = %index%
+label-unfocused-background = ${colors.background2}
+label-unfocused-padding = 1
+label-visible = %index%
+label-visible-padding = 1
+label-visible-background = ${colors.red}
+label-urgent = %index%
+label-urgent-padding = 1
+label-urgent-background = ${colors.red}
+index-sort = true
+
+[module/memory]
+type = internal/memory
+format-background = ${colors.background2}
+interval = 1
+format = %{A1:gnome-usage &:}<bar-used>%{A}
+format-padding=1
+bar-used-indicator =
+bar-used-width = 9
+bar-used-foreground-0 = ${colors.red}
+bar-used-fill = ▄
+bar-used-empty = ▄
+bar-used-empty-foreground = ${colors.green}
+
+[module/battery]
+type = internal/battery
+full-at = 90
+battery = BAT0
+adapter = AC
+poll-interval = 5
+format-full = 
+format-full-font=5
+format-full-background = ${colors.background2}
+format-full-padding = 1
+format-charging-padding = 1
+format-charging = <animation-charging>
+format-charging-background = ${colors.background2}
+format-discharging = <ramp-capacity>
+format-discharging-padding = 1
+format-discharging-background = ${colors.background2}
+format-discharging-foreground = ${colors.foreground}
+animation-charging-framerate = 1000
+ramp-capacity-0 = %{F#BF616A}
+ramp-capacity-1 = %{F#D08770}
+ramp-capacity-2 = %{F#EBCB8B}
+ramp-capacity-3 = %{F#A3BE8C}
+ramp-capacity-4 = %{F#A3BE8C}
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+
+[bar/bar]
+border-size=4
+border-color= ${colors.background}
+monitor-strict = true
+top = true
+modules-left = i3 
+modules-center = time
+modules-right = info-todotxt updates-arch-aur gmail space filesystem memory cpu backlight keyboard wireless battery volume
+background = ${colors.background}
+foreground = ${colors.foreground}
+font-0 = "Inconsolata Nerd Font Mono:size=16;3"
+font-1 = "NotoEmoji Nerd Font:size=12;3"
+font-2 = "DejaVu Sans:size=12;0"
+font-3 = "Twitter Color Emoji:size=12;0"
+font-4 = "Noto Sans Canadian Aboriginal:size=14;3"
+height = 24
+tray-padding = 4
+wm-restack = i3
